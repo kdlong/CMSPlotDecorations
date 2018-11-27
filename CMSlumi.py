@@ -40,8 +40,6 @@ def CMSlumi(pad,
     cmsTextSize      = 0.85 if padRatio < 1.1 else 1.0
     cmsTextOffset    = 0.1 
 
-    #relPosX    = 0.036 if padRatio < 1.1 else 0.033
-    #relExtraDY = 1.4
     relPosX    = 0.04 
     relPosY    = (0.04 if padRatio < 1.1 else 0.06) + (0.02 if isThesis else 0)
     relExtraDY = 1.2 if padRatio < 1.1 else 1.3
