@@ -24,6 +24,10 @@ def CMSlumi(pad,
           Updated by:   Dinko Ferencek (Rutgers)
     '''
     cmsText     = "CMS"
+    isThesis = extraText == 'Thesis'
+    if isThesis:
+        cmsText     = "K. Long"
+        #extraText = "Work in progress"
     cmsTextFont   = 61  
 
     writeExtraText = extraText != ""
@@ -32,14 +36,20 @@ def CMSlumi(pad,
     lumiTextSize     = 0.6
     lumiTextOffset   = 0.2
 
-    cmsTextSize      = 0.75
-    cmsTextOffset    = 0.1
+    padRatio = float(pad.GetWw())/pad.GetWh() 
+    cmsTextSize      = 0.85 if padRatio < 1.1 else 1.0
+    cmsTextOffset    = 0.1 
 
-    relPosX    = 0.045
-    relPosY    = 0.035
-    relExtraDY = 1.2
+    #relPosX    = 0.036 if padRatio < 1.1 else 0.033
+    #relExtraDY = 1.4
+    relPosX    = 0.04 
+    relPosY    = (0.04 if padRatio < 1.1 else 0.06) + (0.02 if isThesis else 0)
+    relExtraDY = 1.2 if padRatio < 1.1 else 1.3
+    relExtraDX = (2.4 if padRatio < 1.1 else 1.2 ) + (1.1 if isThesis else 0)
 
     extraOverCmsTextSize  = 0.76
+    if isThesis:
+        extraOverCmsTextSize  = 1
 
     lumi_13TeV = "20.1 fb^{-1}"
     lumi_8TeV  = "19.7 fb^{-1}" 
@@ -156,7 +166,11 @@ def CMSlumi(pad,
                 latex.SetTextFont(extraTextFont)
                 latex.SetTextAlign(align_)
                 latex.SetTextSize(extraTextSize*t)
-                latex.DrawLatex(posX_, posY_- relExtraDY*cmsTextSize*t, extraText)
+                if not isThesis:
+                    latex.DrawLatex(posX_, posY_- relExtraDY*cmsTextSize*t, extraText)
+                else:
+                    latex.DrawLatex(posX_+relExtraDX*cmsTextSize*t, posY_-0.005, extraText)
+                    
     elif( writeExtraText ):
         if( iPosX==0):
             posX_ =   l +  relPosX*(1-l-r)
